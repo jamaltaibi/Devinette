@@ -22,119 +22,242 @@ Si l'utilisateur entre autre chose qu'un nombre, ou une commande, on affiche un 
 
 => Essayer d'utiliser le moins de lignes de code possible.
 
+**************************************************************************/
 
------
-En groupe de 2 ( mixe en terme de niveau )
+/* 1er essai */
 
-Tic Tac Toe
+// let nbEssais = 0;
+// const maxEssais = 5;
+// const secret = 10; // Le nombre à deviner
+// let input;
+// let humain = parseInt(localStorage.getItem('Humain'),10 )|| 0 ;
+// let ordi = parseInt(localStorage.getItem('ordi'),10 ) || 0  ;
 
-Faire un morpion. 
-L'utilisateur peut placer une croix dans la matrice ( en choisissant sur l'axe XY)
-Si l'emplacement n'est pas libre, afficher un message d'erreur
-Sinon, ajouter la croix, et donner son tour à l'ordinateur.
-L'ordinateur "choisi" de manière random une position libre
 
-Si trois formes identiques se suivent, le jeu est terminé.
+// const lancer = () => {
 
-*/
 
-let nbEssais;
-const maxEssais = 5;
-let secret;
-let partieEnCours = false;
+// 	input = 0
+// 	nbEssais=0	
 
-let scoreHumain = parseInt(localStorage.getItem('Humain'), 10) || 0;
-let scoreOrdi = parseInt(localStorage.getItem('Ordi'), 10) || 0;
+//      while (nbEssais < maxEssais && input !== secret) {
+//         input = parseInt(prompt(`Devine un nombre entre 1 et 100 sinon ecrire "pause" pour enregistrer la partie en cours`));
+// 		if(input){
+// 			if(nbEssais!== 0){
+// 				localStorage.setItem('Humain : ',humain)
+// 				localStorage.setItem('ordi : ',ordi)
+// 			}else{
+// 				alert('aucune partie en cours')
+// 			}
+// 		}
+// 		console.log("essai restant :",maxEssais-1-nbEssais	);
+//         if (input === secret) {
+// 			console.log('Bravo !')
+// 			humain++
+//         } else {
+//             if (input > secret) {
+// 				console.log('Trop haut')              
+//             } else if (input < secret) {
+// 				console.log('Trop bas')			
+//             }
+//             if (Math.abs(secret - input) < 10) {
+// 				console.log('Tu es proche !')
+//             }
+//             nbEssais += 1;
+//         }
+//     }
+//     if (input !== secret) {
+// 		console.log('Perdu !')
+// 		ordi++
+//     }
+// }
 
-const demarrerPartie = () => {
-    secret = Math.floor(Math.random() * 100) + 1;
-    nbEssais = 0;
-    partieEnCours = true;
-    console.log("Une nouvelle partie commence !");
-};
+// const score = () => { console.log('humain :' + humain , 'ordi:' +ordi)};
 
-const verifierReponse = (input) => {
-    if (input === secret) {
-        alert("Bravo ! Vous avez trouvé le nombre.");
-        scoreHumain++;
-        terminerPartie(true);
-    } else if (input > secret) {
-        alert("Trop haut !");
-    } else if (input < secret) {
-        alert("Trop bas !");
-    }
 
-    if (Math.abs(secret - input) < 10) {
-        alert("Tu es proche !");
-    }
+/************************************************************************** */
 
-    nbEssais++;
+/* 2eme essai */
 
-    if (nbEssais >= maxEssais) {
-        terminerPartie(false);
-    }
-};
+// let nbEssais;
+// const maxEssais = 5;
+// let secret;
+// let partieEnCours = false;
 
-const terminerPartie = (victoire) => {
-    partieEnCours = false;
-    if (!victoire) {
-        alert("Perdu ! Le nombre secret était " + secret);
-        scoreOrdi++;
-    }
-    localStorage.setItem('Humain', scoreHumain);
-    localStorage.setItem('Ordi', scoreOrdi);
-    afficherScore();
-};
+// let scoreHumain = parseInt(localStorage.getItem('Humain'), 10) || 0;
+// let scoreOrdi = parseInt(localStorage.getItem('Ordi'), 10) || 0;
 
-const afficherScore = () => {
-    console.log('Score - Humain : ' + scoreHumain + ' | Ordi : ' + scoreOrdi);
-};
+// const demarrerPartie = () => {
+//     secret = Math.floor(Math.random() * 100) + 1;
+//     nbEssais = 0;
+//     partieEnCours = true;
+//     console.log("Une nouvelle partie commence !");
+// };
 
-const pausePartie = () => {
-    if (partieEnCours) {
-        console.log("Partie en cours sauvegardée.");
-    } else {
-        console.log("Aucune partie en cours à sauvegarder.");
-    }
-};
+// const verifierReponse = (input) => {
+//     if (input === secret) {
+//         alert("Bravo ! Vous avez trouvé le nombre.");
+//         scoreHumain++;
+//         terminerPartie(true);
+//     } else if (input > secret) {
+//         alert("Trop haut !");
+//     } else if (input < secret) {
+//         alert("Trop bas !");
+//     }
 
-const lancerJeu = () => {
-    const reponseInitiale = prompt("Souhaitez-vous jouer ? (OUI/NON)").toUpperCase();
-    if (reponseInitiale === 'OUI') {
-        if (partieEnCours) {
-            const reprendre = prompt("Voulez-vous reprendre la partie en cours ? (OUI/NON)").toUpperCase();
-            if (reprendre === 'NON') {
-                demarrerPartie();
-            }
-        } else {
-            demarrerPartie();
-        }
+//     if (Math.abs(secret - input) < 10) {
+//         alert("Tu es proche !");
+//     }
 
-        while (partieEnCours) {
-            let input = prompt("Devine un nombre entre 1 et 100 ou entrez une commande (score/pause)").toLowerCase();
+//     nbEssais++;
 
-            if (input === 'score') {
-                afficherScore();
-            } else if (input === 'pause') {
-                pausePartie();
-                break;
-            } else {
-                input = parseInt(input, 10);
-                if (!isNaN(input)) {
-                    verifierReponse(input);
-                } else {
-                    alert("Entrée invalide. Veuillez entrer un nombre ou une commande valide.");
-                }
-            }
-        }
-    } else {
-        console.log("Merci, à bientôt !");
-    }
-};
+//     if (nbEssais >= maxEssais) {
+//         terminerPartie(false);
+//     }
+// };
 
-// Lancer le jeu
-lancerJeu();
+// const terminerPartie = (victoire) => {
+//     partieEnCours = false;
+//     if (!victoire) {
+//         alert("Perdu ! Le nombre secret était " + secret);
+//         scoreOrdi++;
+//     }
+//     localStorage.setItem('Humain', scoreHumain);
+//     localStorage.setItem('Ordi', scoreOrdi);
+//     afficherScore();
+// };
 
+// const afficherScore = () => {
+//     console.log('Score - Humain : ' + scoreHumain + ' | Ordi : ' + scoreOrdi);
+// };
+
+// const pausePartie = () => {
+//     if (partieEnCours) {
+//         console.log("Partie en cours sauvegardée.");
+//     } else {
+//         console.log("Aucune partie en cours à sauvegarder.");
+//     }
+// };
+
+// const lancerJeu = () => {
+//     const reponseInitiale = prompt("Souhaitez-vous jouer ? (OUI/NON)").toUpperCase();
+//     if (reponseInitiale === 'OUI') {
+//         if (partieEnCours) {
+//             const reprendre = prompt("Voulez-vous reprendre la partie en cours ? (OUI/NON)").toUpperCase();
+//             if (reprendre === 'NON') {
+//                 demarrerPartie();
+//             }
+//         } else {
+//             demarrerPartie();
+//         }
+
+//         while (partieEnCours) {
+//             let input = prompt("Devine un nombre entre 1 et 100 ou entrez une commande (score/pause)").toLowerCase();
+
+//             if (input === 'score') {
+//                 afficherScore();
+//             } else if (input === 'pause') {
+//                 pausePartie();
+//                 break;
+//             } else {
+//                 input = parseInt(input, 10);
+//                 if (!isNaN(input)) {
+//                     verifierReponse(input);
+//                 } else {
+//                     alert("Entrée invalide. Veuillez entrer un nombre ou une commande valide.");
+//                 }
+//             }
+//         }
+//     } else {
+//         console.log("Merci, à bientôt !");
+//     }
+// };
+
+// // Lancer le jeu
+// lancerJeu();
+
+/************************************************************************** */
 
 // Correction :
 
+let userScore = 0;
+let computerScore = 0;
+
+function startGame() {
+    while (confirm('Voulez-vous jouer ?')) {
+        let data = load();
+        if(data && confirm('Reprendre la partie ?')) {
+            console.log(data);
+            userScore = +data[0];
+            computerScore = +data[1];
+            let nbEssais = +data[2];
+            let secret = +data[3];
+            guessNumber(nbEssais, secret)
+        } else {
+            guessNumber();
+        }
+
+    }
+}
+
+function guessNumber(essai = 0, nbSecret) {
+    let nbEssais = essai;
+    let secret = nbSecret ?? Math.floor(Math.random() * 100 + 1);
+    console.log(secret);
+    let input;
+
+    while( nbEssais < 5) {
+        input = prompt('Devine un nombre entre 1 et 100'); // Attention, retourne une string !
+
+            if(input === "score") {
+                score();
+                continue;
+            } else if (input === 'pause') {
+                save(nbEssais, secret);
+                continue;
+            } else if(isNaN(Number(input))) {
+                alert('Mauvais caractère entré !');
+                continue;
+            }
+
+        input = Number(input);
+        if(input === secret) {
+            alert('Gagné !');
+            userScore++;
+            break;
+        } else if (input > secret) {
+            alert('Trop haut !')
+        } else {
+            alert('Trop Bas !')
+        }
+        isClose(input, secret);
+        nbEssais++;
+    }
+    if(nbEssais >= 5) {
+        alert('Perdu !');
+        computerScore++;
+    }
+}
+
+function isClose(input, secret) {
+    if(secret - input < 10 && secret - input > -10) {
+        alert('Tu es proche !')
+    }
+}
+
+function score() {
+    alert(`User : ${userScore} -- Computer : ${computerScore}`);
+}
+
+function save(nbEssais, secret) {
+    const data = [userScore, computerScore, nbEssais, secret];
+    localStorage.setItem('guessNumber', data.join(','));
+}
+
+function load() {
+    const data = localStorage.getItem('guessNumber')?.split(',');
+    localStorage.clear();
+    return data;
+}
+
+startGame();
